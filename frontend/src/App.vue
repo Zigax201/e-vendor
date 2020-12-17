@@ -1,27 +1,22 @@
 <template>
     <div id="app">
-        <HomePage message="ini message" />
+        <!-- <HomePage message="ini message" /> -->
+        <Checkout />
     </div>
 </template>
 
 <script>
-import HomePage from "./components/HomePage.vue";
+// import HomePage from "./pages/HomePage";
+import Checkout from "./pages/SignUpPage";
 
 export default {
     name: "App",
     components: {
-        HomePage,
+        // HomePage,
+        Checkout,
     },
 };
 </script>
 
 <style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
 </style>
