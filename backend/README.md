@@ -1,436 +1,191 @@
-# PERSEWAAN VENDOR E-COMMERCE
+# API Endpoint
 
-## List Content
-
-- [USER](#user)
-  - [Login User](#login-user)
-  - [Register User](#register-user)
-  - [Logout User](#logout-user)
-  - [Get User](#get-user)
-  - [Update User](#update-user)
-- [ITEM](#item)
-  - [Create Item](#create-item)
-  - [Get Item](#get-item-by-id)
-  - [Get List Item](#get-list-item)
-  - [Edit Item By Id](#edit-item-by-id)
-  - [Delete Item](#delete-item)
-- [TRANSACTION](#transaction) 
-  - [Get Transaction](#get-transaction)
-  - [Get List Transaction](#get-list-transactions)
-  - [Update Transaction](#update-transaction)
-
-<br>
-
----
-
-<h2 id="user" style="text-align : center;">ACCOUNT USER</h2>
-
----
-
-<br>
-
-> ### Login User
-
-Request :
-
+## Login
+Request
 - Method : POST
-- Endpoint : `/users/login`
-- Body :
-  - email : string
-  - password : string
+- Endpoint : `api/user/login`
+- Body:
+    - email : string
+    - password : string
 
-Response :
-
+Response
 ```json
 {
-  "code": "integer",
-  "result": {
-    "access_token": "string",
-    "token_type": "string",
-    "expires_in": "number"
-  }
-}
-```
-
-> ### Register User
-
-Request :
-
-- Method : POST
-- Endpoint : `/users/register`
-- Body :
-  - email : string
-  - username : string
-  - password : string
-  - gender : string
-  - phone_number : string
-  - address : string
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "gender": "string",
-    "phone_number": "string",
-    "address": "string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### Logout User
-
-Request :
-
-- Method : POST
-- Endpoint : `/users/logout`
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": "boolean"
-}
-```
-
-> ### Get User
-
-Request :
-
-- Method : POST
-- Endpoint : `/users`
-- Header :
-  - Authorization : Bearer string
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "gender": "string",
-    "phone_number": "string",
-    "address": "string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### Update User
-
-Request :
-
-- Method : PUT
-- Endpoint : `/users/{user_id}`
-- Header :
-  - Authorization : Bearer string
-- Body :
-  - username : string
-  - password : string
-  - gender : string
-  - phone_number : string
-  - address : string
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "gender": "string",
-    "phone_number": "string",
-    "address": "string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-<br>
-
----
-
-<h2 id="item" style="text-align : center;">ITEM</h2>
-
----
-
-<br>
-
-> ### CREATE Item
-
-Request :
-
-- Method : POST
-- Endpoint : `/items`
-- Header :
-  - Authorization : Bearer string
-- Body :
-  - name : string
-  - quantity : integer
-  - desc : string
-  - img : file
-  - price : integer
-  
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "name": "string",
-    "quantity": "integer",
-    "desc": "string",
-    "img_url": "string",
-    "price": "integer",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### GET Item by ID
-
-Request :
-
-- Method : GET
-- Endpoint : `/items/{item_id}`
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "name": "string",
-    "quantity": "integer",
-    "desc": "string",
-    "img_url": "string",
-    "price": "integer",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### GET List Item
-
-Request :
-
-- Method : GET
-- Endpoint : `/items`
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": [
-    {
-      "id": "integer",
-      "name": "string",
-      "quantity": "integer",
-      "desc": "string",
-      "img_url": "string",
-      "price": "integer",
-      "created_at": "date",
-      "updated_at": "date"
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": "Authenticated"
+    },
+    "data": {
+        "access_token": "5|YGxcOglrkl72jbneNANJnxxmdyKvSpXI9ipqFIiB",
+        "token_type": "Bearer",
+        "user": {
+            "id": 1,
+            "name": "admin",
+            "email": "admin@admin.com",
+            "phone_number": "089765890876",
+            "email_verified_at": "2020-12-09T03:25:08.000000Z",
+            "current_team_id": null,
+            "profile_photo_path": null,
+            "created_at": 1607484308,
+            "updated_at": 1607484308,
+            "profile_photo_url": "https://ui-avatars.com/api/?name=admin&color=7F9CF5&background=EBF4FF"
+        }
     }
-  ]
 }
 ```
 
-> ### Edit Item by ID
-
-Request :
-
-- Method : PUT
-- Endpoint : `/items/{item_id}`
-- Header :
-  - Authorization : Bearer string
-- Body :
-  - name : string
-  - quantity : integer
-  - desc : string
-  - img_url : string
-  - price ; integer
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "name": "string",
-    "quantity": "integer",
-    "desc": "string",
-    "img_url": "string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### Delete Item
-
-Request :
-
-- Method : DELETE
-- Endpoint : `/items/{item_id}`
-- Header :
-  - Authorization : Bearer string
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": "string"
-}
-```
-
-<br>
-
----
-
-<h2 id="transaction" style="text-align : center;">TRANSACTION</h2>
-
----
-
-<br>
-
-> ### Create Transaction
-
-Request :
-
+## Register
+Request
 - Method : POST
-- Endpoint : `/transactions`
-- Header :
-  - Authorization : Bearer string
-- Body : 
-  - user_id : integer 
-  - item_id : integer 
-  - quantity : integer
-  
-Response :
+- Endpoint : `api/user/register`
+- Body:
+    - name : string
+    - email : string
+    - password : string
+    - password_confirm : string
+    - phone_number : string
 
+Response
 ```json
 {
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "user_id": "integer",
-    "item_id": "integer",
-    "quantity": "string",
-    "status": "string",
-    "total": "integer",
-    "address":"string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### Get Transaction
-
-Request :
-
-- Method : GET
-- Endpoint : `/transactions/{transaction_id}`
-- Header :
-  - Authorization : Bearer string
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "user_id": "integer",
-    "item_id": "integer",
-    "quantity": "string",
-    "status": "string",
-    "total": "integer",
-    "address":"string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
-}
-```
-
-> ### Get List Transactions
-
-Request :
-
-- Method : GET
-- Endpoint : `/transactions`
-- Header :
-  - Authorization : Bearer string
-
-Response :
-
-```json
-{
-  "code": "integer",
-  "result": [
-    {
-      "id": "integer",
-      "user_id": "integer",
-      "item_id": "integer",
-      "quantity": "string",
-      "status": "string",
-      "total": "integer",
-      "address":"string",
-      "created_at": "date",
-      "updated_at": "date"
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": null
+    },
+    "data": {
+        "access_token": "6|0jRApj8rLL8XVehwyzTBFOKYZBwIfFsFw2h7YHGQ",
+        "token_type": "Bearer",
+        "user": {
+            "name": "user4",
+            "email": "user4@user.com",
+            "phone_number": "3456789",
+            "updated_at": 1608047611,
+            "created_at": 1608047611,
+            "id": 5,
+            "profile_photo_url": "https://ui-avatars.com/api/?name=user4&color=7F9CF5&background=EBF4FF",
+            "roles": [
+                {
+                    "id": 1,
+                    "name": "user",
+                    "guard_name": "web",
+                    "created_at": "2020-12-09T03:22:59.000000Z",
+                    "updated_at": "2020-12-09T03:22:59.000000Z",
+                    "pivot": {
+                        "model_id": 5,
+                        "role_id": 1,
+                        "model_type": "App\\Models\\User"
+                    }
+                }
+            ]
+        }
     }
-  ]
 }
 ```
 
-> ### Update Transaction
-
-Request :
-
-- Method : PUT
-- Endpoint : `/transaction/{transaction_id}`
+## Logout
+Request
+- Method : POST
+- Endpoint : `api/user/logout`
 - Header :
-  - Authorization : Bearer string
-- Body :
-  - status : string
+    - Authorization : Bearer Token
 
-Response :
-
+Response
 ```json
 {
-  "code": "integer",
-  "result": {
-    "id": "integer",
-    "user_id": "integer",
-    "item_id": "integer",
-    "quantity": "string",
-    "status": "string",
-    "total": "integer",
-    "address":"string",
-    "created_at": "date",
-    "updated_at": "date"
-  }
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": "Token Revoked"
+    },
+    "data": true
 }
 ```
+
+## List Product
+Request
+- Method : GET
+- Endpoint : `api/product`
+
+Response
+```json
+{
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": "product fetched"
+    },
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 1,
+                "name": "ID Card",
+                "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt, ducimus aliquam quod necessitatibus dolorum eos? Harum odio beatae quasi adipisci.",
+                "image_url": "http://127.0.0.1:8000/storage/assets/products/U274yLFFQkR1AuJlYrASDiTHc2KajEzYnLbvLTve.jpg",
+                "price": 5000,
+                "rating": 6,
+                "quantity": 200,
+                "sold": 0,
+                "created_at": 1608044920,
+                "updated_at": 1608044920
+            }
+        ],
+        "first_page_url": "http://127.0.0.1:8000/api/product?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://127.0.0.1:8000/api/product?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/product?page=1",
+                "label": 1,
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "http://127.0.0.1:8000/api/product",
+        "per_page": 6,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+    }
+}
+```
+
+## Create Product
+Request
+- Method : POST
+- Endpoint : `api/product`
+- Header :
+    - Authorization : Bearer Token
+- Body :
+    - name : string
+    - description : string
+    - image : file image
+    - price : integer
+    - rating : integer
+    - quantity : integer
+    - sold : integer
+Response
+```json
+{
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": "Token Revoked"
+    },
+    "data": true
+}
+```
+

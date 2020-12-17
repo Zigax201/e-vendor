@@ -2,16 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Carbon\Carbon;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Authenticatable
 {
-    use Authenticatable, Authorizable, HasFactory;
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -19,15 +27,51 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'name',
+        'email',
+        'phone_number',
+        'password',
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
         'password',
+        'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function getCreatedAtAttribute($value){
+        return Carbon::parse($value)->timestamp;
+    }
+
+    public function getUpdatedAtAttribute($value){
+        return Carbon::parse($value)->timestamp;
+    }
 }
