@@ -7,10 +7,10 @@
             <br />natus voluptatibus corporis quia sunt omnis aperiam suscipit nisi.
         </p>
         <div class="flex justify-center mt-8">
-            <button
-                href="#"
-                class="bg-blue-700 px-4 py-2 mx-auto w-52 inline-block text-white rounded focus:outline-none hover:bg-blue-800"
-            >Back</button>
+            <router-link
+                to="/"
+                class="bg-blue-700 text-center px-4 py-2 mx-auto w-52 inline-block text-white rounded focus:outline-none hover:bg-blue-800"
+            >Back</router-link>
         </div>
     </div>
 </template>

@@ -3,71 +3,19 @@
         <Header />
 
         <div class="container">
-            <h2 class="text-3xl text-gray-500 font-light mx-8">Welcome, Muhajir</h2>
+            <!-- <h2 class="text-3xl text-gray-500 font-light mx-8">Welcome, Muhajir</h2> -->
         </div>
         <div class="container">
             <h3 class="text-xl text-gray-500 font-semibold mx-8">New Product</h3>
             <div class="product-container mx-8 flex flex-wrap justify-between">
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
+                <Product
+                    v-for="product in products"
+                    :key="product.id"
+                    :name="product.name"
+                    :price="product.price"
+                    :image_url="product.image_url"
+                    :id="product.id"
+                />
             </div>
         </div>
 
@@ -82,46 +30,13 @@
             </div>
             <h3 class="text-xl text-gray-500 font-semibold mx-8">Recomended Product</h3>
             <div class="product-container mx-8 flex flex-wrap">
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
-                <div class="product w-48 border rounded p-2 mr-2">
-                    <img
-                        src="https://via.placeholder.com/150"
-                        class="h-44 w-44 object-cover"
-                        alt
-                        srcset
-                    />
-                    <p class="font-semibold text-blue-900">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="text-gray-500">IDR.50.000</p>
-                </div>
+                <Product
+                    v-for="product in products"
+                    :key="product.id"
+                    :name="product.name"
+                    :price="product.price"
+                    :image_url="product.image_url"
+                />
             </div>
         </div>
 
@@ -135,7 +50,7 @@
 <script>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import axios from "axios";
+import Product from "../components/Product";
 export default {
     props: {
         message: String,
@@ -144,45 +59,29 @@ export default {
         return {
             nama: "muhajir",
             result: "",
-            fromapi: "",
-            data: [
-                {
-                    nama: "muhajir",
-                },
-                {
-                    nama: "besar",
-                },
-                {
-                    nama: "kevin",
-                },
-                {
-                    nama: "Zigax",
-                },
-            ],
+            products: null,
         };
     },
-    created() {
-        this.callapi();
+    async created() {
+        this.products = await this.callApi("get", "product");
+        if (this.products) {
+            if (this.products.status != 200) {
+                return;
+            }
+
+            this.products = this.products.data.data.data;
+            console.log(this.products);
+        }
     },
     methods: {
         ubahnama() {
             this.nama = "besar";
         },
-        async callapi() {
-            var url = "https://jsonplaceholder.typicode.com/todos/1";
-            var response = await axios.get(url);
-
-            if (response.status != 200) {
-                this.fromapi = "GAGAL mengambil data api";
-                return;
-            }
-
-            this.fromapi = response.data;
-        },
     },
     components: {
         Header,
         Footer,
+        Product,
     },
 };
 </script>
