@@ -21,17 +21,12 @@
 
         <div class="mt-8">
             <div class="mx-8 mb-8">
-                <img
-                    class="object-cover w-full"
-                    src="https://via.placeholder.com/800x150"
-                    alt
-                    srcset
-                />
+                <img class="object-cover w-full h-56" src="../assets/banner.jpg" alt srcset />
             </div>
             <h3 class="text-xl text-gray-500 font-semibold mx-8">Recomended Product</h3>
             <div class="product-container mx-8 flex flex-wrap">
                 <Product
-                    v-for="product in products"
+                    v-for="product in recomendeds"
                     :key="product.id"
                     :name="product.name"
                     :price="product.price"
@@ -60,10 +55,11 @@ export default {
             nama: "muhajir",
             result: "",
             products: null,
+            recomendeds: null,
         };
     },
     async created() {
-        this.products = await this.callApi("get", "product");
+        this.products = await this.callApi("get", "product?limit=100");
         if (this.products) {
             if (this.products.status != 200) {
                 return;
@@ -71,6 +67,19 @@ export default {
 
             this.products = this.products.data.data.data;
             console.log(this.products);
+        }
+
+        this.recomendeds = await this.callApi(
+            "get",
+            "product?rate_to=10&rate_from=6&limit=100"
+        );
+        if (this.recomendeds) {
+            if (this.recomendeds.status != 200) {
+                return;
+            }
+
+            this.recomendeds = this.recomendeds.data.data.data;
+            console.log(this.recomendeds);
         }
     },
     methods: {

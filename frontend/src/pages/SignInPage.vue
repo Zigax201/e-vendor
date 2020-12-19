@@ -47,6 +47,7 @@ export default {
             }
 
             localStorage.setItem("token", response.data.data.access_token);
+            this.$router.push({ path: `/` });
         },
     },
 };
